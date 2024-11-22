@@ -18,13 +18,21 @@
   </div>
   <el-button type="primary" @click="counterStore.increment">add store count</el-button>
 
+  <el-button type="success" @click="query">query</el-button>
+
   <hr>
   <RouterView></RouterView>
 </template>
 
 <script setup lang="ts">
 import { useCounterStore } from "@/stores/counter";
+import server from "./utils/request";
 const counterStore = useCounterStore();
+
+const query = async () => {
+  const res = await server.get("/api/v1/users/me");
+  console.log(res);
+}
 
 
 
