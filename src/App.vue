@@ -1,5 +1,3 @@
-<script setup lang="ts"></script>
-
 <template>
   <!-- 测试ELemntPlus & icon -->
   <div>
@@ -14,7 +12,22 @@
     tailwind css
   </div>
 
+  <!-- test-pinia -->
+  <div>
+    store count in App: {{ counterStore.count }}
+  </div>
+  <el-button type="primary" @click="counterStore.increment">add store count</el-button>
+
+  <hr>
   <RouterView></RouterView>
 </template>
+
+<script setup lang="ts">
+import { useCounterStore } from "@/stores/counter";
+const counterStore = useCounterStore();
+
+
+
+</script>
 
 <style scoped></style>
