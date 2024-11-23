@@ -16,6 +16,7 @@
     "axios": "^1.7.7",
     "element-plus": "^2.8.8",
     "pinia": "^2.2.6",
+    "qs": "^6.13.1",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5"
   },
@@ -23,6 +24,7 @@
     "@iconify-json/ep": "^1.2.1",
     "@tsconfig/node22": "^22.0.0",
     "@types/node": "^22.9.0",
+    "@types/qs": "^6.9.17",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vitejs/plugin-vue-jsx": "^4.0.1",
     "@vue/eslint-config-prettier": "^10.1.0",

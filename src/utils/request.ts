@@ -1,6 +1,7 @@
-import axios from "axios";
+import axios, { type AxiosRequestConfig } from "axios";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { CODE_STATUS } from "./codeStatus";
+import type { ApiMethod } from "ApiMap";
 
 // 创建 axios 实例
 const server = axios.create({
@@ -64,4 +65,20 @@ server.interceptors.response.use(
     }
 )
 
-export default server;
+// 请求方法封装
+const request = {
+    GET: <T>(url: string, config?: AxiosRequestConfig<any> | undefined) => {
+        return server.get<T>(url, config)
+    },
+    POST: <T>(url: string, data?: unknown, config?: AxiosRequestConfig<any> | undefined) => {
+        return server.post<T>(url, data, config)
+    },
+    PUT: <T>(url: string, data?: unknown, config?: AxiosRequestConfig<any> | undefined) => {
+        return server.put<T>(url, data, config);
+    },
+    DELETE: <T>(url: string, config?: AxiosRequestConfig<any> | undefined) => {
+        return server.delete<T>(url, config)
+    },
+}
+
+export default request;

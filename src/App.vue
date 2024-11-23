@@ -26,12 +26,18 @@
 
 <script setup lang="ts">
 import { useCounterStore } from "@/stores/counter";
-import server from "./utils/request";
+import { authApi } from "./api/auth/api";
+import axios from "axios";
+import qs from 'qs';
 const counterStore = useCounterStore();
 
+
 const query = async () => {
-  const res = await server.get("/api/v1/users/me");
-  console.log(res);
+  const res = await authApi.login({
+    username: "admin",
+    password: "123456",
+  })
+  console.log("result :", res);
 }
 
 
