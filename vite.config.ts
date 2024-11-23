@@ -71,18 +71,18 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       },
     },
     server: {
-      // host: '0.0.0.0',
+      host: '0.0.0.0',
       port: Number(env.VITE_APP_PORT),
       open: true, // 自动打开浏览器
       // 反向代理解决跨域
       proxy: {
         [env.VITE_APP_BASE_API]: {
-          // target: 'http://vapi.youlai.tech',
-          target: 'http://127.0.0.1:8989',
+          target: 'http://vapi.youlai.tech',
+          // target: 'http://127.0.0.1:8989',
           changeOrigin: true,
           rewrite: (path) => {
-            // const proxyPath = path.replace(new RegExp(`^${env.VITE_APP_BASE_API}`), '/api');
-            return path;
+            const proxyPath = path.replace(new RegExp(`^${env.VITE_APP_BASE_API}`), '');
+            return proxyPath;
           }
         }
       }

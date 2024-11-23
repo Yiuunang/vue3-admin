@@ -8,6 +8,11 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElForm: typeof import('element-plus/es')['ElForm']
+    ElFormItem: typeof import('element-plus/es')['ElFormItem']
+    ElIcon: typeof import('element-plus/es')['ElIcon']
+    ElImage: typeof import('element-plus/es')['ElImage']
+    ElInput: typeof import('element-plus/es')['ElInput']
     IEpInfoFilled: typeof import('~icons/ep/info-filled')['default']
     IEpSuccessFilled: typeof import('~icons/ep/success-filled')['default']
     IEpWarningFilled: typeof import('~icons/ep/warning-filled')['default']

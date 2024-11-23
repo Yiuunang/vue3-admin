@@ -16,5 +16,7 @@ import type { ApiMap } from 'ApiMap';
  */
 export const authApiMap: ApiMap = {
     // 登录
-    login: ['POST', '/auth/login'],
+    login: ['POST', '/api/v1/auth/login'],
+    // 获取验证码
+    captcha: ['GET', '/api/v1/auth/captcha'],
 };

@@ -2,6 +2,7 @@ import axios, { type AxiosRequestConfig } from "axios";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { CODE_STATUS } from "./codeStatus";
 import type { ApiMethod } from "ApiMap";
+import { getToken } from "./auth";
 
 // 创建 axios 实例
 const server = axios.create({
@@ -16,9 +17,9 @@ const server = axios.create({
 server.interceptors.request.use(
     (config) => {
         // 在发送请求之前做些什么
-        const toekn = localStorage.getItem("token");
-        if (toekn) {
-            config.headers.Authorization = "Bearer " + toekn;
+        const token = getToken();
+        if (token) {
+            config.headers.Authorization = token;
         }
         return config;
     },
