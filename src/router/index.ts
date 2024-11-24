@@ -6,23 +6,6 @@ export const Layout = () => import('@/layout/index.vue')
 // 静态路由
 const staticRoutes: RouteRecordRaw[] = [
   {
-    path: '/',
-    name: 'Home',
-    redirect: '/dashboard',
-    children: [
-      {
-        path: '/dashboard',
-        name: 'Dashboard',
-        component: () => import('@/views/dashboard/index.vue'),
-        meta: {
-          title: 'dashboard',
-          icon: 'homepage',
-          affix: true
-        }
-      }
-    ]
-  },
-  {
     path: '/login',
     name: 'Login',
     component: () => import('@/views/login/index.vue'),
@@ -43,11 +26,33 @@ const staticRoutes: RouteRecordRaw[] = [
         component: () => import('@/views/redirect/index.vue')
       }
     ]
-  }
+  },
+  {
+    path: '/',
+    name: 'Home',
+    redirect: '/dashboard',
+    children: [
+      {
+        path: '/dashboard',
+        name: 'Dashboard',
+        component: () => import('@/views/dashboard/index.vue'),
+        meta: {
+          title: 'dashboard',
+          icon: 'homepage',
+          affix: true
+        }
+      },
+      {
+        path: '/404',
+        name: 'NotFound',
+        component: () => import('@/views/errorPage/404.vue')
+      }
+    ]
+  },
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes: staticRoutes,
   // 刷新时，滚动条位置还原
   scrollBehavior: () => ({ left: 0, top: 0 })

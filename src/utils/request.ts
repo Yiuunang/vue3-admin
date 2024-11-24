@@ -1,8 +1,9 @@
-import axios, { type AxiosRequestConfig } from "axios";
-import { ElMessage, ElMessageBox } from "element-plus";
-import { CODE_STATUS } from "./codeStatus";
-import type { ApiMethod } from "ApiMap";
+import axios, { type AxiosRequestConfig, type InternalAxiosRequestConfig } from "axios";
+import { ElMessage } from "element-plus";
 import { getToken } from "./auth";
+import { ResponseCode } from "@/enums/ResponseCode";
+import { useUserStoreWithOut } from "@/stores/user";
+import router from "@/router";
 
 // 创建 axios 实例
 const server = axios.create({
@@ -18,9 +19,13 @@ server.interceptors.request.use(
     (config) => {
         // 在发送请求之前做些什么
         const token = getToken();
-        if (token) {
+
+        if (config.headers.Authorization !== 'no-auth' && token) {
             config.headers.Authorization = token;
+        } else {
+            delete config.headers.Authorization;
         }
+
         return config;
     },
     (error) => {
@@ -32,9 +37,9 @@ server.interceptors.request.use(
 // 响应拦截器
 server.interceptors.response.use(
     (response) => {
-        const { code, msg } = response.data;
+        const { code, msg, data } = response.data;
         // 登录成功
-        if (code === CODE_STATUS.SUCCESS) {
+        if (code === ResponseCode.SUCCESS) {
             return response.data;
         }
 
@@ -42,29 +47,75 @@ server.interceptors.response.use(
         return Promise.reject(new Error(msg || 'Error'));
     },
     (error) => {
-        if (error.response.data) {
-            const { code, msg } = error.response.data;
-            // token 过期，跳转登录页
-            if (code === CODE_STATUS.EXPIRED) {
-                ElMessageBox.confirm(
-                    '当前页面已失效，请重新登录',
-                    '提示',
-                    {
-                        confirmButtonText: '确定',
-                        type: 'warning'
-                    }
-                ).then(() => {
-                    localStorage.clear();
-                    window.location.href = '/';
-                });
-            } else {
-                ElMessage.error(msg || '系统出错');
+        const { config, response } = error;
+
+        if (response) {
+            const { code, msg } = response.data;
+            switch (code) {
+                case ResponseCode.ACCESS_TOKEN_INVALID:
+                    handleRefreshToken(config);
+                    break;
+                case ResponseCode.REFRESH_TOKEN_INVALID:
+                    return Promise.reject(new Error(msg || "Error"));
+                default:
+                    ElMessage.error(msg || "系统出错");
+                    break;
             }
         }
 
         return Promise.reject(error);
     }
 )
+
+
+let isRefreshing = false;
+// 因 Token 过期导致失败的请求队列
+let requestsQueue: (() => void)[] = [];
+
+/**
+ * 处理 refresh token
+ */
+function handleRefreshToken(config: InternalAxiosRequestConfig) {
+    return new Promise(async (resolve, reject) => {
+        const requestCallback = () => {
+            const token = getToken();
+            config.headers.Authorization = token;
+            resolve(server(config))
+        }
+
+        requestsQueue.push(requestCallback);
+
+        if (!isRefreshing) {
+            isRefreshing = true;
+
+            const userStore = useUserStoreWithOut()
+
+            try {
+                await userStore.refreshToken()
+                // 刷新 token 成功后，重新发起失败的请求
+                requestsQueue.forEach((callback) => callback())
+            } catch (error) {
+                // Token 刷新失败，清除用户数据并跳转到登录
+                ElNotification({
+                    title: "提示",
+                    message: "您的会话已过期，请重新登录",
+                    type: "info",
+                });
+                userStore.clearUserInfo();
+                router.push({ name: "Login" });
+
+                // 拒绝队列中的请求
+                requestsQueue.forEach(() => reject(error));
+            } finally {
+                requestsQueue = [];
+                isRefreshing = false;
+            }
+
+        }
+
+    })
+}
+
 
 // 请求方法封装
 const request = {

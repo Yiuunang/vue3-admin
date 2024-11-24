@@ -13,8 +13,6 @@ import type { LoginParams } from "./type";
 async function login(params: LoginParams) {
     try {
         const res = await authServer.login(params);
-        console.log(1, res);
-
         return {
             data: res.data
         }
@@ -23,6 +21,27 @@ async function login(params: LoginParams) {
     }
 }
 
+/**
+ * 刷新 token
+ * @param refreshToken 
+ * @returns 
+ */
+async function refreshToken(refreshToken: string) {
+    try {
+        const res = await authServer.refreshToken(refreshToken);
+        return {
+            data: res.data
+        }
+    } catch (error) {
+        return {}
+    }
+
+}
+
+/**
+ * 获取验证码
+ * @returns 
+ */
 async function getCapacha() {
     try {
         const res = await authServer.getCapacha();
@@ -34,7 +53,40 @@ async function getCapacha() {
     }
 }
 
+/**
+ * 获取用户信息
+ * @returns 
+ */
+async function getUserInfo() {
+    try {
+        const res = await authServer.getUserInfo();
+        return {
+            data: res.data
+        }
+    } catch (error) {
+        return {}
+    }
+}
+
+/**
+ * 登出
+ * @returns 
+ */
+async function loginOut() {
+    try {
+        const res = await authServer.loginOut();
+        return {
+            data: res.data
+        }
+    } catch (error) {
+        return {}
+    }
+}
+
 export const authApi = {
     login,
-    getCapacha
+    refreshToken,
+    getCapacha,
+    getUserInfo,
+    loginOut
 }

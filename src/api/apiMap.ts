@@ -9,14 +9,22 @@
  */
 
 // import type 是 TypeScript 中的一种特定导入语法，用于引入仅在类型检查和编译时需要的类型信息，而不会引入实际运行时的代码。
-import type { ApiMap } from 'ApiMap';
+export type ApiMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 /**
  * 权限相关接口
  */
-export const authApiMap: ApiMap = {
+export const authApiMap: {
+    [key: string]: [ApiMethod, string]
+} = {
     // 登录
     login: ['POST', '/api/v1/auth/login'],
     // 获取验证码
     captcha: ['GET', '/api/v1/auth/captcha'],
+    // 获取用户信息
+    getUserInfo: ['GET', '/api/v1/users/me'],
+    // 登出
+    loginOut: ['DELETE', '/api/v1/auth/logout'],
+    // 刷新token
+    refreshToken: ['POST', '/api/v1/auth/refresh-token']
 };

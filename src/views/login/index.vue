@@ -42,6 +42,7 @@
         >
           <div class="w-full flex items-center">
             <el-input
+              ref="captchaInput"
               auto-complete="off"
               class="h-[48px] flex-1 captcha-input rounded-none"
               size="large"
@@ -51,7 +52,7 @@
             <el-image
               :src="captchaBase64"
               class="h-[46px] cursor-pointer rounded-tr-[4px] rounded-br-[4px]"
-              @click="getCaptcha"
+              @click="getCaptcha(true)"
             />
           </div>
         </el-form-item>
@@ -74,11 +75,16 @@
 <script setup lang="ts">
 import { authApi } from '@/api/auth/api'
 import type { LoginParams } from '@/api/auth/type'
-import { setToken } from '@/utils/auth'
+import { useUserStore } from '@/stores/user'
 import { User, Lock, InfoFilled } from '@element-plus/icons-vue'
 import type { FormInstance } from 'element-plus'
+import type { InputInstance } from 'element-plus/lib/components/index.js'
+import { useRoute, useRouter } from 'vue-router'
 
+// 表单
 const formRef = ref<FormInstance>()
+// 验证码输入框
+const captchaInput = ref()
 
 // 表单内容
 const formData = ref<LoginParams>({
@@ -98,32 +104,52 @@ const rules = {
 // 验证码
 const captchaBase64 = ref('')
 // 获取验证码
-const getCaptcha = async () => {
+const getCaptcha = async (isFoucs: boolean = false) => {
   const { data } = await authApi.getCapacha()
   if (data) {
     captchaBase64.value = data.captchaBase64
     formData.value.captchaKey = data.captchaKey
+    if (isFoucs) {
+      captchaInput.value?.focus()
+    }
   }
 }
 
+const route = useRoute()
+const router = useRouter()
 // 登录状态
 const loadingStatus = ref(false)
+const userStore = useUserStore()
 const login = () => {
   formRef.value?.validate(async (valid: boolean) => {
     if (valid) {
       if (loadingStatus.value) return
-      loadingStatus.value = true
-      const { data } = await authApi.login(formData.value)
-      if (data) {
-        const { tokenType, accessToken, refreshToken } = data
-        setToken(tokenType + ' ' + accessToken)
-        // todo 跳转
-      } else {
-        getCaptcha()
+      try {
+        await userStore.login(formData.value)
+        await userStore.getUserInfo()
+        const { path, queryParams } = parseRedirect()
+        router.push({ path, query: queryParams })
+      } catch (error) {
+        getCaptcha(true)
       }
       loadingStatus.value = false
     }
   })
+}
+
+function parseRedirect() {
+  const query = route.query
+  const redirect = query.redirect as string
+
+  const url = new URL(redirect, window.location.origin)
+  const path = url.pathname
+  const queryParams: Record<string, string> = {}
+
+  url.searchParams.forEach((value, key) => {
+    queryParams[key] = value
+  })
+
+  return { path, queryParams }
 }
 
 onMounted(() => {
