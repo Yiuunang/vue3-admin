@@ -33,14 +33,11 @@ export function setupPermission() {
                     }
                 } else {
                     try {
-                        console.warn('初始的 router', router.getRoutes());
                         // 生成动态路由
                         const dynamicRoutes = await permissionStore.generateRoutes()
-                        console.warn('生成动态路由', dynamicRoutes);
 
                         // 添加路由
                         dynamicRoutes.forEach(r => router.addRoute(r));
-                        console.warn('添加动态路由后的 router', router.getRoutes());
 
                         next({ ...to, replace: true });
                     } catch (error) {   // 路由加载失败，清空信息，跳转到登录页
