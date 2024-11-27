@@ -8,5 +8,7 @@ export default {
     extend: {},
   },
   plugins: [],
+  // 使用类名去控制黑暗模式
+  darkMode: 'class'
 }
 

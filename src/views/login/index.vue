@@ -75,10 +75,9 @@
 <script setup lang="ts">
 import { authApi } from '@/api/auth/api'
 import type { LoginParams } from '@/api/auth/type'
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/modules/user'
 import { User, Lock, InfoFilled } from '@element-plus/icons-vue'
 import type { FormInstance } from 'element-plus'
-import type { InputInstance } from 'element-plus/lib/components/index.js'
 import { useRoute, useRouter } from 'vue-router'
 
 // 表单

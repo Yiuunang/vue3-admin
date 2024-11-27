@@ -2,7 +2,7 @@ import axios, { type AxiosRequestConfig, type InternalAxiosRequestConfig } from 
 import { ElMessage } from "element-plus";
 import { getToken } from "./auth";
 import { ResponseCode } from "@/enums/ResponseCode";
-import { useUserStoreWithOut } from "@/stores/user";
+import { useUserStoreWithOut } from "@/stores/modules/user";
 import router from "@/router";
 
 // 创建 axios 实例

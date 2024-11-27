@@ -28,3 +28,10 @@ export const authApiMap: {
     // 刷新token
     refreshToken: ['POST', '/api/v1/auth/refresh-token']
 };
+
+export const menuApiMap: {
+    [key: string]: [ApiMethod, string]
+} = {
+    // 获取路由列表
+    routesList: ['GET', '/api/v1/menus/routes'],
+}

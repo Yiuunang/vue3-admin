@@ -4,7 +4,7 @@ import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 export const Layout = () => import('@/layout/index.vue')
 
 // 静态路由
-const staticRoutes: RouteRecordRaw[] = [
+export const staticRoutes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'Login',
@@ -30,6 +30,7 @@ const staticRoutes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'Home',
+    component: Layout,
     redirect: '/dashboard',
     children: [
       {
@@ -57,16 +58,6 @@ const router = createRouter({
   // 刷新时，滚动条位置还原
   scrollBehavior: () => ({ left: 0, top: 0 })
 })
-
-/**
- * 重置路由
- */
-export function resetRouter() {
-  router.replace({
-    name: 'Login'
-  })
-  location.reload();
-}
 
 /**
  * 全局注册 router

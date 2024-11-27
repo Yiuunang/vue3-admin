@@ -10,6 +10,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    // 类型声明相关配置
+    "types": ["vite/client"]
   }
 }

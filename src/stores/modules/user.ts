@@ -1,9 +1,9 @@
 import { authApi } from "@/api/auth/api";
 import type { LoginParams, UserInfo } from "@/api/auth/type";
 import { useStorage } from "@/hooks/useStorage";
-import { resetRouter } from "@/router";
 import { clearToken, getRefreshToken, setRefreshToken, setToken } from "@/utils/auth";
-import { store } from ".";
+import { store } from "..";
+import { usePermissionStore } from "./permission";
 
 export const useUserStore = defineStore('user', () => {
     // 用户信息
@@ -41,9 +41,10 @@ export const useUserStore = defineStore('user', () => {
      * 登出
      */
     function loginOut() {
-        return new Promise(async (resolve, reject) => {
+        return new Promise<void>(async (resolve, reject) => {
             await authApi.loginOut()
             clearUserInfo();
+            resolve();
         })
     }
 
@@ -73,8 +74,13 @@ export const useUserStore = defineStore('user', () => {
     function clearUserInfo() {
         userInfo.value = null;
         clearToken();
-        // todo 重置路由 动态路由?
-        resetRouter();
+        usePermissionStore().resetRoute();
+        // return new Promise<void>((resolve) => {
+        //     userInfo.value = null;
+        //     clearToken();
+        //     usePermissionStore().resetRoute();
+        //     resolve();
+        // });
     }
 
     return {

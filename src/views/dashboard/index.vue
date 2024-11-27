@@ -5,14 +5,24 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/modules/user'
+import { useRoute, useRouter } from 'vue-router'
 
 const userStore = useUserStore()
+
+const router = useRouter()
+const route = useRoute()
 const loginOut = async () => {
-  userStore.loginOut()
+  await userStore.loginOut()
+  router.push({
+    name: 'Login',
+    query: {
+      redirect: route.fullPath, // 将当前路由的完整路径作为重定向参数
+    },
+  })
 }
 
 const getInfo = async () => {
-  userStore.getUserInfo()
+  await userStore.getUserInfo()
 }
 </script>
