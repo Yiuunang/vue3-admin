@@ -22,6 +22,6 @@
   }
 
   .hover-bg {
-    @apply hover:bg-slate-500 dark:hover:bg-slate-500;
+    @apply hover:bg-slate-200 dark:hover:bg-slate-500;
   }
 }

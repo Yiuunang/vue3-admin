@@ -20,6 +20,7 @@
     "nprogress": "^0.2.0",
     "pinia": "^2.2.6",
     "qs": "^6.13.1",
+    "unplugin-element-plus": "^0.8.0",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5"
   },

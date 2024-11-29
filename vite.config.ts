@@ -16,6 +16,8 @@ import Icons from 'unplugin-icons/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import IconsResolver from 'unplugin-icons/resolver'
 
+import ElementPlus from 'unplugin-element-plus/vite'
+
 
 const pathSrc = path.resolve(__dirname, 'src')
 
@@ -27,6 +29,8 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       vue(),
       vueJsx(),
       vueDevTools(),
+      // 开启ElementPlus自动引入CSS
+      ElementPlus({}),
       // 自动导入
       AutoImport({
 
@@ -77,7 +81,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       // 反向代理解决跨域
       proxy: {
         [env.VITE_APP_BASE_API]: {
-          target: 'http://vapi.youlai.tech',
+          target: 'https://api.youlai.tech',
           // target: 'http://127.0.0.1:8989',
           changeOrigin: true,
           rewrite: (path) => {

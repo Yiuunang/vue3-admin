@@ -1,7 +1,7 @@
 <template>
   <div class="common-layout size-full main-bg text-color">
     <el-container class="size-full">
-      <Aside class="w-[210px] h-full main-bg" />
+      <Aside class="h-full main-bg" />
       <el-container class="w-[calc(100% - 210px)] h-full">
         <el-header class="w-full h-[50px]">
           <Header />
