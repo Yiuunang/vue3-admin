@@ -13,6 +13,13 @@
     v-else
     icon-class="menu"
   />
+  <!-- title -->
+  <span
+    v-if="title"
+    class="ml-1"
+  >
+    {{ title }}
+  </span>
 </template>
 
 <script setup lang="ts">
@@ -22,3 +29,23 @@ const { icon, title } = defineProps<{
   title: string
 }>()
 </script>
+
+<style lang="css" scoped>
+.sub-el-icon {
+  width: 14px !important;
+  margin-right: 0 !important;
+  color: currentcolor;
+}
+
+.hideSidebar {
+
+  .el-sub-menu,
+  .el-menu-item {
+
+    .svg-icon,
+    .sub-el-icon {
+      margin-left: 20px;
+    }
+  }
+}
+</style>

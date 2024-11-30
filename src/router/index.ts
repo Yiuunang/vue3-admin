@@ -34,19 +34,21 @@ export const staticRoutes: RouteRecordRaw[] = [
     redirect: '/dashboard',
     children: [
       {
-        path: '/dashboard',
+        path: 'dashboard',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index.vue'),
         meta: {
-          title: 'dashboard',
+          title: '首页',
           icon: 'homepage',
-          affix: true
+          affix: true,
+          keepAlive: true,
         }
       },
       {
         path: '/404',
         name: 'NotFound',
-        component: () => import('@/views/errorPage/404.vue')
+        component: () => import('@/views/errorPage/404.vue'),
+        meta: { hidden: true },
       }
     ]
   },

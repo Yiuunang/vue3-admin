@@ -1,9 +1,9 @@
 import { authApi } from "@/api/auth/api";
 import type { LoginParams, UserInfo } from "@/api/auth/type";
-import { useStorage } from "@/hooks/useStorage";
 import { clearToken, getRefreshToken, setRefreshToken, setToken } from "@/utils/auth";
 import { store } from "..";
 import { usePermissionStore } from "./permission";
+import { useStorage } from "@vueuse/core";
 
 export const useUserStore = defineStore('user', () => {
     // 用户信息
@@ -28,8 +28,8 @@ export const useUserStore = defineStore('user', () => {
     function getUserInfo() {
         return new Promise(async (resolve, reject) => {
             const { data } = await authApi.getUserInfo()
-            if (data && userInfo.value) {
-                Object.assign(userInfo.value, data);
+            if (data) {
+                Object.assign(userInfo.value, { ...data });
                 resolve(data);
             } else {
                 reject(data)
@@ -72,7 +72,7 @@ export const useUserStore = defineStore('user', () => {
      * 清除用户信息
      */
     function clearUserInfo() {
-        userInfo.value = null;
+        userInfo.value = {} as UserInfo;
         clearToken();
         usePermissionStore().resetRoute();
         // return new Promise<void>((resolve) => {

@@ -5,7 +5,7 @@
       @click="appStore.toggleAsideStatus"
     >
       <el-icon class="text-color">
-        <Expand v-if="isCollapse" />
+        <Expand v-if="appStore.asideIsCollapse" />
         <Fold v-else />
       </el-icon>
     </div>
@@ -13,11 +13,8 @@
 </template>
 
 <script setup lang="ts">
-import { AsideStatusEnum } from '@/enums/AsideStatusEnum'
 import { useAppStore } from '@/stores/modules/app'
 import { Expand, Fold } from '@element-plus/icons-vue'
 
 const appStore = useAppStore()
-// 是否折叠
-const isCollapse = computed(() => (appStore.asideStatus === AsideStatusEnum.CLOSE ? true : false))
 </script>
