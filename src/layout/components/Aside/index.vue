@@ -24,11 +24,11 @@
               <template #title>Navigator One</template>
             </el-menu-item>
             <el-menu-item index="2">
-              <el-icon><icon-menu /></el-icon>
+              <el-icon><Menu /></el-icon>
               <template #title>Navigator Two</template>
             </el-menu-item>
             <el-menu-item index="3">
-              <el-icon><icon-menu /></el-icon>
+              <el-icon><Menu /></el-icon>
               <template #title>Navigator Three</template>
             </el-menu-item>
             <el-sub-menu index="4">
@@ -57,7 +57,6 @@
 </template>
 
 <script setup lang="ts">
-import { HomeFilled, Menu as IconMenu, Location, Setting } from '@element-plus/icons-vue'
 import { usePermissionStore } from '@/stores/modules/permission'
 import { useAppStore } from '@/stores/modules/app'
 import { AsideStatusEnum } from '@/enums/AsideStatusEnum'
