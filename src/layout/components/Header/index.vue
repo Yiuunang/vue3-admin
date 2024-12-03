@@ -9,12 +9,23 @@
         <Fold v-else />
       </el-icon>
     </div>
+    <div class="header-right flex justify-center items-center h-[100%]">
+      <!-- 全屏 -->
+      <FullScreen class="mr-[10px] p-1 cursor-pointer hover-bg" />
+      <!-- 主题 -->
+      <ChangeTheme class="mr-[10px] p-1 cursor-pointer hover-bg" />
+      <!-- 头像 -->
+      <UserProfile />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useAppStore } from '@/stores/modules/app'
 import { Expand, Fold } from '@element-plus/icons-vue'
+import UserProfile from './components/UserProfile.vue'
+import FullScreen from './components/FullScreen.vue'
+import ChangeTheme from './components/ChangeTheme.vue'
 
 const appStore = useAppStore()
 </script>
