@@ -35,3 +35,21 @@ export const menuApiMap: {
     // 获取路由列表
     routesList: ['GET', '/api/v1/menus/routes'],
 }
+
+/* 日志接口 */
+export const logApiMap: {
+    [key: string]: [ApiMethod, string]
+} = {
+    // 获取访问数据
+    visitStats: ['GET', '/api/v1/logs/visit-stats'],
+    // 获取访问趋势
+    visitTrend: ['GET', '/api/v1/logs/visit-trend'],
+}
+
+/* 通知公告 */
+export const noticeApiMap: {
+    [key: string]: [ApiMethod, string]
+} = {
+    // 获取我的通知公告分页列表
+    myNoticePage: ['GET', '/api/v1/notices/my-page'],
+}

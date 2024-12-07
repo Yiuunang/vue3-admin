@@ -72,7 +72,7 @@ export const useUserStore = defineStore('user', () => {
      * 清除用户信息
      */
     function clearUserInfo() {
-        userInfo.value = {} as UserInfo;
+        // userInfo.value = {} as UserInfo;
         clearToken();
         usePermissionStore().resetRoute();
         // return new Promise<void>((resolve) => {
