@@ -52,6 +52,41 @@ export const staticRoutes: RouteRecordRaw[] = [
       }
     ]
   },
+  {
+    path: '/form',
+    name: 'Form',
+    component: Layout,
+    redirect: '/dynamicForm',
+    meta: {
+      alwaysShow: false,
+      hidden: false,
+      icon: "cascader",
+      params: null,
+      title: "表单",
+    },
+    children: [
+      {
+        path: '/myForm',
+        name: 'MyForm',
+        component: () => import('@/views/form/MyForm/index.vue'),
+        meta: {
+          title: 'ElForm',
+          icon: 'cascader',
+          affix: true,
+        }
+      },
+      {
+        path: '/dynamicForm',
+        name: 'DynamicForm',
+        component: () => import('@/views/form/DynamicForm/index.vue'),
+        meta: {
+          title: '动态表单',
+          icon: 'cascader',
+          affix: true,
+        }
+      },
+    ]
+  },
 ]
 
 const router = createRouter({

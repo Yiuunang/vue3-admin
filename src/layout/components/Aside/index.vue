@@ -38,6 +38,9 @@ const appStore = useAppStore()
 </script>
 
 <style lang="css" scoped>
+.aside-container {
+  flex-shrink: 0;
+}
 .aside-container aside {
     width: 100%
 }

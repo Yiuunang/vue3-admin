@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-container p-[24px]">
+  <div class="dashboard-container">
     <!-- 信息卡片 -->
     <el-card>
       <el-row>
